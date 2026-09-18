@@ -1,12 +1,55 @@
 # Cloud AI Meeting Intelligence
 
-A production-oriented FastAPI and RAG service that converts enterprise meeting
-transcripts into structured summaries and enables grounded question answering
-over meeting history.
+Cloud AI Meeting Intelligence is a production-oriented backend for turning
+meeting documents and recordings into searchable organizational knowledge. It
+accepts text, PDF, and audio sources; processes long-running uploads in the
+background; stores encrypted transcripts and vector embeddings; and answers
+questions with verifiable citations to the original meeting content.
 
-The project currently uses OpenRouter as its LLM gateway. Its service boundary
-is designed so that additional providers and local models can be added without
-changing the API layer.
+The project goes beyond a basic LLM demo. It combines authenticated,
+user-isolated data access with stateful agent conversations, PostgreSQL and
+pgvector retrieval, Redis-backed background jobs, observability, automated
+tests, containerization, and Kubernetes deployment manifests.
+
+OpenRouter is currently used as the LLM and embedding gateway, while the
+provider interfaces remain replaceable so additional hosted or local models
+can be introduced without changing the public API.
+
+## End-to-end workflow
+
+```text
+Register / Login
+       |
+       v
+Upload PDF or audio ---> Redis queue ---> Celery processing
+                                             |
+                                             v
+                              Extract / transcribe / encrypt
+                                             |
+                                             v
+                                  Chunk and create embeddings
+                                             |
+                                             v
+                                  PostgreSQL + pgvector
+                                             |
+                    +------------------------+---------------------+
+                    |                                              |
+                    v                                              v
+          Grounded Q&A with citations                 Stateful agent chat
+```
+
+## Technology stack
+
+| Area | Technologies |
+| --- | --- |
+| API | FastAPI, Pydantic, Uvicorn |
+| Data | PostgreSQL, SQLAlchemy, Alembic, pgvector |
+| AI and retrieval | OpenRouter, embeddings, HNSW cosine search, RAG |
+| Background processing | Celery, Redis |
+| Security | JWT, Argon2, Fernet encryption, per-user ownership |
+| Observability | OpenTelemetry, Prometheus metrics, trace IDs |
+| Delivery | Docker Compose, GitHub Actions, Kubernetes |
+| Quality | Pytest, Ruff, retrieval evaluation, citation validation |
 
 ## Current capabilities
 
