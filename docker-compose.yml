@@ -1,0 +1,89 @@
+services:
+  upload-init:
+    build: .
+    user: root
+    command: chown app:app /app/uploads
+    volumes:
+      - meeting_uploads:/app/uploads
+
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: meeting_intelligence
+      POSTGRES_USER: meeting
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - meeting_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U meeting -d meeting_intelligence"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DATABASE_URL: postgresql+psycopg://meeting:${POSTGRES_PASSWORD}@db:5432/meeting_intelligence
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-google/gemma-4-26b-a4b-it:free}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-openai/text-embedding-3-small}
+      EMBEDDING_DIMENSIONS: 1536
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-60}
+      APP_SECRET_KEY: ${APP_SECRET_KEY:?set APP_SECRET_KEY}
+      FIELD_ENCRYPTION_KEY: ${FIELD_ENCRYPTION_KEY:?set FIELD_ENCRYPTION_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      REDIS_URL: redis://redis:6379/0
+      UPLOAD_DIR: /app/uploads
+    ports:
+      - "8000:8000"
+    depends_on:
+      upload-init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - meeting_uploads:/app/uploads
+
+  worker:
+    build: .
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DATABASE_URL: postgresql+psycopg://meeting:${POSTGRES_PASSWORD}@db:5432/meeting_intelligence
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-60}
+      APP_SECRET_KEY: ${APP_SECRET_KEY:?set APP_SECRET_KEY}
+      FIELD_ENCRYPTION_KEY: ${FIELD_ENCRYPTION_KEY:?set FIELD_ENCRYPTION_KEY}
+      REDIS_URL: redis://redis:6379/0
+      UPLOAD_DIR: /app/uploads
+    command: celery -A app.celery_app.celery_app worker --loglevel=INFO
+    depends_on:
+      upload-init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - meeting_uploads:/app/uploads
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  meeting_postgres_data:
+  meeting_uploads:

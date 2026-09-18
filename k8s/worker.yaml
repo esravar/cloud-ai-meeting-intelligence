@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: meeting-intelligence
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: meeting-worker}
+  template:
+    metadata:
+      labels: {app: meeting-worker}
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/your-org/meeting-intelligence:latest
+          command: ["celery"]
+          args: ["-A", "app.celery_app.celery_app", "worker", "--loglevel=INFO"]
+          envFrom:
+            - configMapRef: {name: meeting-intelligence}
+            - secretRef: {name: meeting-intelligence-secrets}
+          resources:
+            requests: {cpu: 250m, memory: 256Mi}
+            limits: {cpu: "2", memory: 2Gi}
+          volumeMounts:
+            - {name: uploads, mountPath: /app/uploads}
+      volumes:
+        - name: uploads
+          persistentVolumeClaim: {claimName: meeting-uploads}

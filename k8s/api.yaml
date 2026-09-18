@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: meeting-intelligence
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: meeting-api}
+  template:
+    metadata:
+      labels: {app: meeting-api}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/your-org/meeting-intelligence:latest
+          ports: [{name: http, containerPort: 8000}]
+          envFrom:
+            - configMapRef: {name: meeting-intelligence}
+            - secretRef: {name: meeting-intelligence-secrets}
+          readinessProbe:
+            httpGet: {path: /health, port: http}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /health, port: http}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests: {cpu: 200m, memory: 256Mi}
+            limits: {cpu: "1", memory: 1Gi}
+          volumeMounts:
+            - {name: uploads, mountPath: /app/uploads}
+      volumes:
+        - name: uploads
+          persistentVolumeClaim: {claimName: meeting-uploads}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: meeting-intelligence
+spec:
+  selector: {app: meeting-api}
+  ports: [{name: http, port: 80, targetPort: http}]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api
+  namespace: meeting-intelligence
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: api}
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: {type: Utilization, averageUtilization: 70}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api
+  namespace: meeting-intelligence
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: {app: meeting-api}

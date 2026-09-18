@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: meeting-migration
+  namespace: meeting-intelligence
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migration
+          image: ghcr.io/your-org/meeting-intelligence:latest
+          command: ["alembic", "upgrade", "head"]
+          envFrom:
+            - configMapRef: {name: meeting-intelligence}
+            - secretRef: {name: meeting-intelligence-secrets}

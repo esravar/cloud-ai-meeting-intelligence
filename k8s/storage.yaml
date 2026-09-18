@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: meeting-uploads
+  namespace: meeting-intelligence
+spec:
+  accessModes: [ReadWriteMany]
+  resources:
+    requests:
+      storage: 10Gi
