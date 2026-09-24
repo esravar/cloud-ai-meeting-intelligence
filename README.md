@@ -124,14 +124,19 @@ The frontend is designed to support complete English and Turkish localization.
 🚧 **Frontend implementation and API integration are in progress. A public,
 interactive URL will be added here after deployment.**
 
+The working frontend source is in [`frontend/`](frontend/). It implements
+authentication, meetings, upload jobs, cited Q&A, and agent conversations
+against the FastAPI API. The Stitch images above remain design references;
+the application does not display their mock counts or mock AI answers.
+
 Frontend progress:
 
 - [x] UX and responsive visual design
 - [x] Dashboard, meetings, grounded Q&A, and agent-chat concepts
 - [x] English and Turkish interface designs
-- [ ] Frontend component implementation
-- [ ] FastAPI authentication and API integration
-- [ ] Upload and background-job polling
+- [x] Frontend component implementation
+- [x] FastAPI authentication and API integration
+- [x] Upload and background-job polling
 - [ ] Netlify deployment
 - [ ] Public backend, custom domain, CORS, and HTTPS
 
