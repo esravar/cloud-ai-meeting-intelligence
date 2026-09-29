@@ -1,19 +1,41 @@
-# Cloud AI Meeting Intelligence
+# Meeting Intelligence
 
-Cloud AI Meeting Intelligence is a production-oriented backend for turning
-meeting documents and recordings into searchable organizational knowledge. It
-accepts text, PDF, and audio sources; processes long-running uploads in the
-background; stores encrypted transcripts and vector embeddings; and answers
-questions with verifiable citations to the original meeting content.
+**AI-powered organizational memory for meeting recordings and documents.**
 
-The project goes beyond a basic LLM demo. It combines authenticated,
-user-isolated data access with stateful agent conversations, PostgreSQL and
-pgvector retrieval, Redis-backed background jobs, observability, automated
-tests, containerization, and Kubernetes deployment manifests.
+[Live application](https://meeting-intelligence.esravar.com) ·
+[API documentation](https://api.esravar.com/docs) ·
+[Health check](https://api.esravar.com/health)
+
+![Meeting Intelligence architecture and technology overview](assets/github-social-preview.png)
+
+Meeting Intelligence is a deployed, full-stack AI platform that turns meeting
+recordings and documents into searchable organizational knowledge. It accepts
+text, PDF, and audio sources; processes long-running uploads asynchronously;
+stores encrypted transcripts and vector embeddings; and answers questions with
+verifiable citations to the original meeting content.
+
+The project goes beyond a basic LLM demo. It combines a bilingual React
+frontend with authenticated, user-isolated data access, stateful agent
+conversations, PostgreSQL/pgvector retrieval, Redis-backed background jobs,
+observability, automated tests, containerization, and cloud deployment.
 
 OpenRouter is currently used as the LLM and embedding gateway, while the
 provider interfaces remain replaceable so additional hosted or local models
 can be introduced without changing the public API.
+
+## Production deployment
+
+| Component | Deployment |
+| --- | --- |
+| Web application | React/Vite on Netlify at [meeting-intelligence.esravar.com](https://meeting-intelligence.esravar.com) |
+| API | FastAPI behind Caddy with HTTPS at [api.esravar.com](https://api.esravar.com/docs) |
+| Compute | Docker Compose on Oracle Cloud Infrastructure |
+| Data services | PostgreSQL/pgvector and Redis in isolated containers |
+| Background processing | Dedicated Celery worker |
+
+The public application and API use separate subdomains. Caddy terminates TLS
+and reverse-proxies API traffic, while CORS is restricted to the deployed web
+application.
 
 ## End-to-end workflow
 
@@ -48,7 +70,8 @@ Upload PDF or audio ---> Redis queue ---> Celery processing
 | Background processing | Celery, Redis |
 | Security | JWT, Argon2, Fernet encryption, per-user ownership |
 | Observability | OpenTelemetry, Prometheus metrics, trace IDs |
-| Delivery | Docker Compose, GitHub Actions, Kubernetes |
+| Frontend | React, Vite, responsive bilingual UI |
+| Delivery | Netlify, Oracle Cloud, Caddy, Docker Compose, GitHub Actions, Kubernetes |
 | Quality | Pytest, Ruff, retrieval evaluation, citation validation |
 
 ## Current capabilities
@@ -79,15 +102,12 @@ Upload PDF or audio ---> Redis queue ---> Celery processing
 - OpenTelemetry traces and Prometheus latency/token/cost metrics
 - Kubernetes API, worker, migration, Redis, ingress, HPA, and PDB manifests
 
-## Frontend preview
+## Product interface
 
-The responsive, bilingual frontend is currently in development. It will connect
-the existing FastAPI, PostgreSQL/pgvector, Redis, Celery, RAG, and stateful-agent
-backend to a production web interface.
-
-> These screenshots are design previews created with mock data. Model names,
-> user details, document counts, latency values, and usage metrics shown in the
-> designs are illustrative. Live FastAPI integration is in progress.
+The responsive English/Turkish frontend is connected to the production FastAPI
+backend. Users can register, upload meeting material, monitor background jobs,
+search their meeting library, ask grounded questions, and continue persistent
+agent conversations.
 
 ### Dashboard
 
@@ -121,19 +141,24 @@ The frontend is designed to support complete English and Turkish localization.
 
 ### Live demo
 
-🚧 **Frontend implementation and API integration are in progress. A public,
-interactive URL will be added here after deployment.**
+- Application: [meeting-intelligence.esravar.com](https://meeting-intelligence.esravar.com)
+- Interactive API documentation: [api.esravar.com/docs](https://api.esravar.com/docs)
+
+The working frontend source is in [`frontend/`](frontend/). It implements
+authentication, meetings, upload jobs, cited Q&A, and agent conversations
+against the FastAPI API. The Stitch images above remain design references;
+the application does not display their mock counts or mock AI answers.
 
 Frontend progress:
 
 - [x] UX and responsive visual design
 - [x] Dashboard, meetings, grounded Q&A, and agent-chat concepts
 - [x] English and Turkish interface designs
-- [ ] Frontend component implementation
-- [ ] FastAPI authentication and API integration
-- [ ] Upload and background-job polling
-- [ ] Netlify deployment
-- [ ] Public backend, custom domain, CORS, and HTTPS
+- [x] Frontend component implementation
+- [x] FastAPI authentication and API integration
+- [x] Upload and background-job polling
+- [x] Netlify deployment
+- [x] Public backend, custom domains, CORS, and HTTPS
 
 ## Architecture
 

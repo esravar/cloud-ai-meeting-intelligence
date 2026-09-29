@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6f63ff"/>
+      <stop offset="1" stop-color="#4338e8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#000" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <circle cx="1190" cy="-10" r="250" fill="#564cf1" opacity="0.12"/>
+  <circle cx="80" cy="700" r="300" fill="#2f81f7" opacity="0.07"/>
+
+  <g transform="translate(72 58)">
+    <circle cx="31" cy="31" r="31" fill="#f0f6fc"/>
+    <path fill="#0d1117" transform="translate(13 13) scale(2.25)"
+      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.58c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    <text x="84" y="41" fill="#f0f6fc" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="700">GitHub Repository</text>
+  </g>
+
+  <g transform="translate(72 157)">
+    <text fill="#8b949e" font-family="Inter, Arial, sans-serif" font-size="22">esravar /</text>
+    <text x="94" fill="#58a6ff" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">cloud-ai-meeting-intelligence</text>
+    <text y="62" fill="#f0f6fc" font-family="Inter, Arial, sans-serif" font-size="43" font-weight="760">Production RAG platform</text>
+    <text y="113" fill="#f0f6fc" font-family="Inter, Arial, sans-serif" font-size="43" font-weight="760">for searchable meeting</text>
+    <text y="164" fill="#f0f6fc" font-family="Inter, Arial, sans-serif" font-size="43" font-weight="760">knowledge</text>
+    <text y="207" fill="#aab3c0" font-family="Inter, Arial, sans-serif" font-size="19">FastAPI · PostgreSQL/pgvector · Redis · Celery · React · Docker</text>
+  </g>
+
+  <g transform="translate(72 405)" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="650">
+    <rect width="122" height="42" rx="21" fill="#222936" stroke="#3d4655"/>
+    <circle cx="24" cy="21" r="7" fill="#3572a5"/>
+    <text x="43" y="27" fill="#d7dee7">Python</text>
+
+    <rect x="136" width="151" height="42" rx="21" fill="#222936" stroke="#3d4655"/>
+    <circle cx="160" cy="21" r="7" fill="#336791"/>
+    <text x="179" y="27" fill="#d7dee7">pgvector</text>
+
+    <rect x="301" width="115" height="42" rx="21" fill="#222936" stroke="#3d4655"/>
+    <circle cx="325" cy="21" r="7" fill="#dc382d"/>
+    <text x="344" y="27" fill="#d7dee7">Redis</text>
+
+    <rect x="430" width="112" height="42" rx="21" fill="#222936" stroke="#3d4655"/>
+    <circle cx="454" cy="21" r="7" fill="#61dafb"/>
+    <text x="473" y="27" fill="#d7dee7">React</text>
+  </g>
+
+  <g transform="translate(773 118)" filter="url(#shadow)">
+    <rect width="435" height="382" rx="24" fill="#0b0f14" stroke="#30363d"/>
+    <rect width="435" height="48" rx="24" fill="#161b22"/>
+    <rect y="25" width="435" height="23" fill="#161b22"/>
+    <circle cx="25" cy="24" r="6" fill="#ff7b72"/>
+    <circle cx="45" cy="24" r="6" fill="#d29922"/>
+    <circle cx="65" cy="24" r="6" fill="#3fb950"/>
+    <text x="88" y="30" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">rag_service.py</text>
+
+    <g transform="translate(26 79)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">
+      <text y="0" fill="#ff7b72">async def</text>
+      <text x="85" y="0" fill="#d2a8ff">answer_question</text>
+      <text x="229" y="0" fill="#f0f6fc">(query, top_k=5):</text>
+
+      <text y="34" fill="#8b949e">    # semantic retrieval with pgvector</text>
+      <text y="68" fill="#79c0ff">    chunks</text>
+      <text x="66" y="68" fill="#f0f6fc">=</text>
+      <text x="86" y="68" fill="#d2a8ff">await</text>
+      <text x="139" y="68" fill="#f0f6fc">retrieve(query, top_k)</text>
+
+      <text y="102" fill="#8b949e">    # grounded generation + citations</text>
+      <text y="136" fill="#ff7b72">    return</text>
+      <text x="66" y="136" fill="#d2a8ff">await</text>
+      <text x="119" y="136" fill="#f0f6fc">generate(query, chunks)</text>
+    </g>
+
+    <g transform="translate(26 260)">
+      <rect width="383" height="88" rx="16" fill="#111820" stroke="#21262d"/>
+      <circle cx="27" cy="28" r="8" fill="#3fb950"/>
+      <text x="46" y="34" fill="#c9d1d9" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="650">CI checks passing</text>
+      <text x="21" y="65" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">pytest · ruff · docker build · migrations</text>
+    </g>
+  </g>
+
+  <g transform="translate(72 544)">
+    <rect width="205" height="48" rx="12" fill="url(#brand)"/>
+    <text x="102.5" y="31" text-anchor="middle" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">View source code  →</text>
+  </g>
+  <text x="1208" y="583" text-anchor="end" fill="#8b949e" font-family="Inter, Arial, sans-serif" font-size="18">github.com/esravar</text>
+</svg>
