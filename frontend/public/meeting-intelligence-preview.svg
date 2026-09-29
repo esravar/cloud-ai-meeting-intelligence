@@ -35,13 +35,13 @@
     <text y="228" fill="#5d6480" font-family="Inter, Arial, sans-serif" font-size="24">across meeting recordings and documents.</text>
   </g>
 
-  <g transform="translate(78 502)" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="650">
-    <rect width="176" height="48" rx="24" fill="#fff" stroke="#d9dcf7"/>
-    <text x="88" y="31" text-anchor="middle" fill="#343954">Source-grounded RAG</text>
-    <rect x="190" width="165" height="48" rx="24" fill="#fff" stroke="#d9dcf7"/>
-    <text x="272" y="31" text-anchor="middle" fill="#343954">Semantic search</text>
-    <rect x="369" width="156" height="48" rx="24" fill="#fff" stroke="#d9dcf7"/>
-    <text x="447" y="31" text-anchor="middle" fill="#343954">Stateful agents</text>
+  <g transform="translate(78 502)" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="650">
+    <rect width="205" height="48" rx="24" fill="#fff" stroke="#d9dcf7"/>
+    <text x="102.5" y="31" text-anchor="middle" fill="#343954">Source-grounded RAG</text>
+    <rect x="219" width="165" height="48" rx="24" fill="#fff" stroke="#d9dcf7"/>
+    <text x="301.5" y="31" text-anchor="middle" fill="#343954">Semantic search</text>
+    <rect x="398" width="156" height="48" rx="24" fill="#fff" stroke="#d9dcf7"/>
+    <text x="476" y="31" text-anchor="middle" fill="#343954">Stateful agents</text>
   </g>
 
   <g transform="translate(795 145)" filter="url(#shadow)">
