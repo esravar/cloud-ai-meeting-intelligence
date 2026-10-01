@@ -5,9 +5,9 @@ from contextlib import asynccontextmanager
 from typing import Annotated, cast
 
 from fastapi import Depends, FastAPI, File, Form, Query, Request, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm import Session
 
